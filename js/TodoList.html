@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function reg_task(){
+            var list_text=document.getElementById('task_input').value
+            if(list_text!=''){
+                var list=document.createElement('li');
+                
+                var del_btn=document.createElement('button');
+                var del_txt=document.createTextNode('삭제');
+                del_btn.appendChild(del_txt);
+                list.appendChild(del_btn);
+
+                del_btn.addEventListener('click', function(){
+                    del_one(this);
+                });
+
+                var node=document.createTextNode(" "+list_text);
+                list.appendChild(node);
+
+                var element=document.getElementById('task_list')
+                element.appendChild(list);
+
+                
+                document.getElementById('task_input').value="";
+
+            }
+        }
+
+        function del_one(btn){
+           var ul_tag=btn.parentElement.parentElement;
+           ul_tag.removeChild(btn.parentElement);
+           
+        }
+
+        function pressEnter(){
+            if(event.keyCode==13){
+                reg_task();
+            }
+        }
+
+        function del_task(){
+            var list=document.getElementById('task_list');
+            while(list.hasChildNodes){
+                list.removeChild(list.firstChild);
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="task_input" onKeyDown="pressEnter();"; placeholder="할일을 입력해 주세요.">
+    <button onclick="reg_task();">등록</button>
+    <button onclick="del_task();">전체 삭제</button>
+    <h4>할 일 목록</h4>
+    <ul id="task_list"></ul>
+</body>
+</html>
