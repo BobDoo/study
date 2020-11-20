@@ -4,37 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .fin{
+            text-decoration: line-through;
+        }
+
+        .center{
+            text-align: center;
+        }
+
+        
+    </style>
     <script>
-        function reg_task(){
-            var list_text=document.getElementById('task_input').value
-            if(list_text!=''){
-                var list=document.createElement('li');
-                
-                var del_btn=document.createElement('button');
-                var del_txt=document.createTextNode('삭제');
-                del_btn.appendChild(del_txt);
-                list.appendChild(del_btn);
+        // ul li 방식
+        // function reg_task(){
+        //     var list_text=document.getElementById('task_input').value
+        //     if(list_text!=''){
+        //         var list=document.createElement('li');
 
-                del_btn.addEventListener('click', function(){
-                    del_one(this);
-                });
+        //         // 체크박스 만들기
 
-                var node=document.createTextNode(" "+list_text);
-                list.appendChild(node);
+        //         // 할일 적기
+        //         var task_txt=document.createTextNode(" "+list_text);
 
-                var element=document.getElementById('task_list')
-                element.appendChild(list);
+        //         // 삭제버튼 만들기
+        //         var del_btn=document.createElement('button');
+        //         var del_txt=document.createTextNode('삭제');
+        //         del_btn.appendChild(del_txt);
 
-                
-                document.getElementById('task_input').value="";
+        //         // 체크박스, 할일, 삭제버튼 순으로 li에 붙이기
+        //         list.appendChild(task_txt);
+        //         list.appendChild(del_btn);
 
+        //         // 체크박스, 삭제버튼 이벤트 걸기
+        //         del_btn.addEventListener('click', function(){
+        //             del_one(this);
+        //         });
+
+        //         // ul에 li 붙이기
+        //         var element=document.getElementById('task_list')
+        //         element.appendChild(list);
+
+        //         // 인풋 비우기
+        //         document.getElementById('task_input').value="";
+
+        //     }
+        // }
+
+        function init(){
+            var chk=localStorage.getItem("chk");
+            var txt=localStorage.getItem("txt");
+            console.log("chk:"+chk);
+            console.log("txt:"+txt);
+
+            var chkArr=JSON.parse(chk);
+            var txtArr=JSON.parse(txt);
+
+            for(i=0; i<txtArr.length; i++){
+                reg_task(txtArr[i]);
             }
+
+            var table=document.getElementById('task_list');
+            var input=table.getElementsByTagName('input');
+            for(i=0; i<chkArr.length; i++){
+                if(chkArr[i]){
+                    input[i].checked=true;
+                    input[i].parentElement.parentElement.className="fin";
+                }
+            }
+
+            var div=document.getElementById('layout');
+            div.addEventListener('change',function(){
+                saveData();
+            })
+            div.addEventListener('click',function(){
+                saveData();
+            })
+        }
+        
+        function saveData(){
+            localStorage.clear();
+            console.clear();
+
+            var table=document.getElementById('task_list');
+            var input=table.getElementsByTagName('input');
+
+            var chkArr=[];
+            for(i=0; i<input.length; i++){
+                chkArr.push(input[i].checked);
+            }
+            
+            localStorage.setItem("chk",JSON.stringify(chkArr));
+
+            var td=table.getElementsByClassName("text");
+            var txt=[];
+            for(i=0; i<td.length; i++){
+                txt.push(td[i].innerText);
+            }
+            console.log(txt);
+            localStorage.setItem("txt",JSON.stringify(txt));
+        }
+        
+        // table 방식
+        function reg_task(task){
+            var list_text=(task!=null && task!='')?task:document.getElementById('task_input').value
+            if(list_text!=''){
+                var tr=document.createElement('tr');
+
+                // chkbox
+                var first_td=document.createElement('td');
+                var chkbox=document.createElement('input');
+                chkbox.type='checkbox';
+                // chkbox.className='done_chk';
+                first_td.appendChild(chkbox);
+                tr.appendChild(first_td);
+
+                // txt
+                var second_td=document.createElement('td');
+                second_td.align='left'
+                second_td.className="text"
+                var txt_node=document.createTextNode(list_text);
+                second_td.appendChild(txt_node);
+                tr.appendChild(second_td);
+
+                // btn
+                var third_td=document.createElement('td');
+                var btn=document.createElement('button');
+                btn.appendChild(document.createTextNode('delete'));
+                third_td.appendChild(btn);
+                tr.appendChild(third_td);
+
+                // evt
+                btn.addEventListener('click',function(){
+                    del_one(this);
+                })
+
+                chkbox.addEventListener('click',function(){
+                    if(chkbox.checked){
+                        tr.className="fin";
+                    } else{
+                        tr.className="";
+                    }
+                })
+
+                document.getElementById('task_list').appendChild(tr);
+            }
+            document.getElementById('task_input').value="";
         }
 
         function del_one(btn){
-           var ul_tag=btn.parentElement.parentElement;
-           ul_tag.removeChild(btn.parentElement);
-           
+           var ul_tag=btn.parentElement.parentElement.parentElement;
+           ul_tag.removeChild(btn.parentElement.parentElement);
         }
 
         function pressEnter(){
@@ -45,17 +165,22 @@
 
         function del_task(){
             var list=document.getElementById('task_list');
-            while(list.hasChildNodes){
+            while(list.hasChildNodes()){
                 list.removeChild(list.firstChild);
             }
         }
     </script>
 </head>
-<body>
-    <input type="text" id="task_input" onKeyDown="pressEnter();"; placeholder="할일을 입력해 주세요.">
-    <button onclick="reg_task();">등록</button>
-    <button onclick="del_task();">전체 삭제</button>
-    <h4>할 일 목록</h4>
-    <ul id="task_list"></ul>
+<body onload="init()">
+    <div id="layout" class="center">
+        <input type="text" id="task_input" onKeyDown="pressEnter();" placeholder="할일을 입력해 주세요.">
+        <button onclick="reg_task();">등록</button>
+        <button onclick="del_task();">전체 삭제</button>
+
+        <div class="task_content">
+            <h4>할 일 목록</h4>
+            <table id="task_list" align="center" width="600px"></table>
+        </div>
+    </div>
 </body>
 </html>
