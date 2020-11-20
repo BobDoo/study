@@ -57,8 +57,8 @@
             console.log("chk:"+chk);
             console.log("txt:"+txt);
 
-            var chkArr=JSON.parse(chk);
-            var txtArr=JSON.parse(txt);
+            var chkArr=JSON.parse(chk)!=null?JSON.parse(chk):[];
+            var txtArr=JSON.parse(txt)!=null?JSON.parse(txt):[];
             if(txtArr!=null){
                 for(i=0; i<txtArr.length; i++){
                     reg_task(txtArr[i]);
