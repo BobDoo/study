@@ -59,20 +59,21 @@
 
             var chkArr=JSON.parse(chk);
             var txtArr=JSON.parse(txt);
+            if(txtArr!=null){
+                for(i=0; i<txtArr.length; i++){
+                    reg_task(txtArr[i]);
+                }
 
-            for(i=0; i<txtArr.length; i++){
-                reg_task(txtArr[i]);
-            }
-
-            var table=document.getElementById('task_list');
-            var input=table.getElementsByTagName('input');
-            for(i=0; i<chkArr.length; i++){
-                if(chkArr[i]){
-                    input[i].checked=true;
-                    input[i].parentElement.parentElement.className="fin";
+                var table=document.getElementById('task_list');
+                var input=table.getElementsByTagName('input');
+                for(i=0; i<chkArr.length; i++){
+                    if(chkArr[i]){
+                        input[i].checked=true;
+                        input[i].parentElement.parentElement.className="fin";
+                    }
                 }
             }
-
+            
             var div=document.getElementById('layout');
             div.addEventListener('change',function(){
                 saveData();
