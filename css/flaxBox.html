@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flax box_css study</title>
+    <style>
+        .container{
+            background: beige;
+            height: 100vh;
+            display: flex;
+            /* row, colmn, row-reverse, colmn-reverse */
+            flex-direction: row;
+            /* nowrap, wrap, wrap-reverse */
+            flex-wrap: nowrap;
+            /* flex-flow: row nowrap; */
+
+            /* flex-start, flex-end, space-around, space-evenly, space-between,  */
+            justify-content: flex-start; /* main axis */
+            /* baseline */
+            align-items: center; /* cross axis */
+
+        }
+        .item{
+            width: 40px;
+            height: 40px;
+            /* border로 설정 가능한 것들
+            border-width: 1px;
+            border-style: solid;
+            border-color: black; */
+            border: 1px solid black;
+        }
+        .item1{
+            background: red;
+        }
+        .item2{
+            background: orange;
+        }
+        .item3{
+            background: yellow;
+        }
+        .item4{
+            background: green;
+        }
+        .item5{
+            background: blue;
+        }
+        .item6{
+            background: indigo;
+        }
+        .item7{
+            background: purple;
+        }
+        .item8{
+            background: brown;
+        }
+        .item9{
+            background: grey;
+        }
+        .item10{
+            background: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item item1">1</div>
+        <div class="item item2">2</div>
+        <div class="item item3">3</div>
+        <div class="item item4">4</div>
+        <div class="item item5">5</div>
+        <div class="item item6">6</div>
+        <div class="item item7">7</div>
+        <div class="item item8">8</div>
+        <div class="item item9">9</div>
+        <div class="item item10">10</div>
+    </div>
+</body>
+</html>
