@@ -10,8 +10,8 @@ const routes = {
   css: {
     watch: "src/scss/*",
     src: "src/scss/styles.scss",
-    dest: "dist/css",
-  },
+    dest: "dest/css"
+  }
 };
 
 const styles = () =>
@@ -21,7 +21,7 @@ const styles = () =>
     .pipe(
       autoprefixer({
         flexbox: true,
-        grid: "autoplace",
+        grid: "autoplace"
       })
     )
     .pipe(minify())
@@ -31,7 +31,7 @@ const watch = () => {
   gulp.watch(routes.css.watch, styles);
 };
 
-const clean = () => del(["dist/"]);
+const clean = () => del(["dest/"]);
 
 const prepare = gulp.series([clean]);
 

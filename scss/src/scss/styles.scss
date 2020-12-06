@@ -1,6 +1,17 @@
-body {
-  background: peru;
-  a {
-    color: blue;
+@import "_mixins.scss";
+
+h1 {
+  color: red;
+  @include responsive("mobile") {
+    color: yellow;
   }
+  @include responsive("mobile_l") {
+    font-size: 60px;
+  }
+  @include responsive("tablet") {
+    color: green;
+  }
+  // @include responsive("tablet_l") {
+  //   color: yellow;
+  // }
 }
